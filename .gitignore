@@ -1,0 +1,40 @@
+# --- Sensitive ---
+# YouTube/Google auth session cookies exported by yt-dlp — never commit
+cookies.txt
+*.cookies
+.env
+*.env
+
+# --- Python ---
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# --- Scraper files ---
+training/scrape_*.py
+
+# --- Generated / working data ---
+tmp/
+static/results/
+data/*
+pre-train/
+
+# --- Large audio assets ---
+*.mp3
+*.wav
+*.flac
+*.m4a
+
+# --- WSL / Windows cruft ---
+*:Zone.Identifier
+
+# --- Local editor / tooling settings ---
+.claude/settings.local.json
+.vscode/
+.idea/
+.DS_Store
+
+
+pipeline.txt
+.claude

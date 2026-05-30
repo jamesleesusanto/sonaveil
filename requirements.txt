@@ -1,0 +1,5 @@
+flask>=3.0.0
+yt-dlp
+demucs
+torch
+torchaudio

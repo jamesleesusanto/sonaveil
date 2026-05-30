@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Sonaveil{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Red scale
+                        'r-surface': '#FCEBEB',
+                        'r-tint':    '#F7C1C1',
+                        'r-mid':     '#F09595',
+                        'r-primary': '#E24B4A',
+                        'r-strong':  '#A32D2D',
+                        'r-dark':    '#791F1F',
+                        'r-ink':     '#501313',
+                        // Neutral warm scale
+                        'n-bg':      '#FFFAFA',
+                        'n-light':   '#F5EDED',
+                        'n-border':  '#E8D8D8',
+                        'n-muted':   '#C4A0A0',
+                        'n-body':    '#7A4848',
+                        'n-strong':  '#4A2424',
+                        'n-ink':     '#1A0808',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+        .font-display { font-family: 'Playfair Display', serif; }
+        .font-body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-n-bg min-h-screen font-body text-n-ink">
+    {% block content %}{% endblock %}
+    {% block scripts %}{% endblock %}
+</body>
+</html>
