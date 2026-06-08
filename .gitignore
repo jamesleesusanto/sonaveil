@@ -26,6 +26,9 @@ pre-train/
 *.flac
 *.m4a
 
+# --- Transient upload/export artifacts ---
+*.zip
+
 # --- WSL / Windows cruft ---
 *:Zone.Identifier
 
