@@ -1,0 +1,331 @@
+{% extends "base.html" %}
+
+{% block title %}Your Library - Sonaveil{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="py-6 px-8 border-b border-n-border bg-n-bg">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <a href="/" class="font-display text-2xl font-bold text-r-strong">Sonaveil</a>
+            <nav class="flex items-center space-x-6 text-sm text-n-body">
+                <a href="/" class="hover:text-r-primary transition">Home</a>
+                <span class="text-r-primary font-medium">Library</span>
+                <!-- Auth: shown when logged out -->
+                <a id="nav-signin" href="/auth"
+                   class="ml-2 px-4 py-2 bg-r-primary hover:bg-r-strong text-white font-medium rounded-lg transition text-sm">
+                    Sign In
+                </a>
+                <!-- Auth: shown when logged in -->
+                <div id="nav-user" class="hidden flex items-center gap-3 ml-2">
+                    <span id="nav-user-email" class="text-n-strong text-sm truncate max-w-[160px]"></span>
+                    <button id="nav-logout"
+                        class="px-3 py-1.5 border border-n-border text-n-body hover:text-r-primary hover:border-r-primary
+                               rounded-lg transition text-sm">
+                        Sign Out
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-1 px-8 py-12">
+        <div class="max-w-3xl mx-auto">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="font-display text-3xl font-bold text-n-ink">Your Library</h2>
+                <a href="/" class="text-sm text-r-primary hover:text-r-strong transition flex items-center gap-1.5">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                    </svg>
+                    New extraction
+                </a>
+            </div>
+
+            <!-- Loading state -->
+            <div id="library-loading" class="hidden py-12 text-center">
+                <svg class="animate-spin h-8 w-8 text-r-primary mx-auto" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <p class="text-n-muted text-sm mt-3">Loading your extractions...</p>
+            </div>
+
+            <!-- Empty state -->
+            <div id="library-empty" class="hidden py-12 text-center">
+                <svg class="mx-auto w-16 h-16 text-n-border mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                          d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
+                </svg>
+                <p class="text-n-body font-medium">No extractions yet</p>
+                <p class="text-sm text-n-muted mt-1">Process a YouTube link or upload an audio file to get started.</p>
+                <a href="/" class="inline-block mt-4 px-6 py-2.5 bg-r-primary hover:bg-r-strong text-white font-medium rounded-xl transition text-sm">
+                    Create your first extraction
+                </a>
+            </div>
+
+            <!-- Login prompt -->
+            <div id="library-login-prompt" class="hidden py-12 text-center">
+                <svg class="mx-auto w-16 h-16 text-n-border mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                </svg>
+                <p class="text-n-body font-medium mb-3">Sign in to see your saved extractions</p>
+                <a href="/auth" class="inline-block px-6 py-2.5 bg-r-primary hover:bg-r-strong text-white font-medium rounded-xl transition text-sm">Sign In</a>
+            </div>
+
+            <!-- Library items container -->
+            <div id="library-items" class="hidden space-y-4"></div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-8 text-center text-n-muted text-sm border-t border-n-border">
+        <p>&copy; 2026 Sonaveil. Made for musicians, by musicians.</p>
+    </footer>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const libraryLoading = document.getElementById('library-loading');
+const libraryEmpty = document.getElementById('library-empty');
+const libraryItems = document.getElementById('library-items');
+const libraryLoginPrompt = document.getElementById('library-login-prompt');
+
+function show(el) { el.classList.remove('hidden'); }
+function hide(el) { el.classList.add('hidden'); }
+
+function formatDate(iso) {
+    const d = new Date(iso);
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' });
+}
+
+function truncate(str, len) {
+    if (!str) return '';
+    return str.length > len ? str.slice(0, len) + '…' : str;
+}
+
+// ── Auth UI ──
+async function updateAuthUI() {
+    const { data: { session } } = await _supabase.auth.getSession();
+    const navSignin = document.getElementById('nav-signin');
+    const navUser = document.getElementById('nav-user');
+    const navUserEmail = document.getElementById('nav-user-email');
+
+    if (session?.user) {
+        navSignin.classList.add('hidden');
+        navUser.classList.remove('hidden');
+        navUserEmail.textContent = session.user.email;
+    } else {
+        navSignin.classList.remove('hidden');
+        navUser.classList.add('hidden');
+    }
+    return session;
+}
+
+document.getElementById('nav-logout').addEventListener('click', async () => {
+    await _supabase.auth.signOut();
+    window.location.reload();
+});
+
+// ── Load library ──
+async function loadLibrary() {
+    // Show loading while we wait for auth
+    show(libraryLoading);
+
+    // Wait for Supabase to fully restore the session from storage.
+    // onAuthStateChange fires INITIAL_SESSION once the persisted session is loaded.
+    const session = await new Promise((resolve) => {
+        // Safety timeout — if no event fires within 4s, assume no session
+        const timeout = setTimeout(() => {
+            sub.unsubscribe();
+            resolve(null);
+        }, 4000);
+
+        const { data: { subscription: sub2 } } = _supabase.auth.onAuthStateChange((event, s) => {
+            // INITIAL_SESSION is the first event — it tells us the restored session (or null)
+            clearTimeout(timeout);
+            sub2.unsubscribe();
+            resolve(s);
+        });
+        // Workaround: store sub reference for timeout cleanup
+        var sub = sub2;
+    });
+
+    // Update nav bar
+    const navSignin = document.getElementById('nav-signin');
+    const navUser = document.getElementById('nav-user');
+    const navUserEmail = document.getElementById('nav-user-email');
+    if (session?.user) {
+        navSignin.classList.add('hidden');
+        navUser.classList.remove('hidden');
+        navUserEmail.textContent = session.user.email;
+    } else {
+        navSignin.classList.remove('hidden');
+        navUser.classList.add('hidden');
+    }
+
+    hide(libraryLoading);
+
+    if (!session) {
+        show(libraryLoginPrompt);
+        return;
+    }
+
+    show(libraryLoading);
+
+    try {
+        const res = await fetch('/api/library', {
+            headers: { 'Authorization': 'Bearer ' + session.access_token }
+        });
+
+        hide(libraryLoading);
+
+        if (res.status === 401) {
+            show(libraryLoginPrompt);
+            return;
+        }
+
+        const items = await res.json();
+
+        if (!items.length) {
+            show(libraryEmpty);
+            return;
+        }
+
+        libraryItems.innerHTML = items.map(item => `
+            <div class="bg-n-light rounded-xl p-5 border border-n-border text-left" data-id="${item.id}">
+                <div class="flex items-start justify-between mb-3">
+                    <div class="min-w-0 flex-1 mr-4">
+                        <div class="flex items-center gap-2 group">
+                            ${item.source_type === 'youtube'
+                                ? '<svg class="flex-shrink-0 w-4 h-4 text-r-primary" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>'
+                                : '<svg class="flex-shrink-0 w-4 h-4 text-r-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>'
+                            }
+                            <span class="item-title font-medium text-n-ink truncate cursor-pointer hover:text-r-primary transition"
+                                  onclick="startEditing(this, '${item.id}')"
+                                  title="Click to rename">${escapeHtml(item.source_label || '')}</span>
+                            <button onclick="startEditing(this.previousElementSibling, '${item.id}')"
+                                    class="flex-shrink-0 opacity-0 group-hover:opacity-100 transition p-1 hover:bg-n-border rounded"
+                                    title="Rename">
+                                <svg class="w-3.5 h-3.5 text-n-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <p class="text-xs text-n-muted mt-1">${formatDate(item.created_at)}</p>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <div>
+                        <p class="text-xs font-semibold text-n-strong uppercase tracking-wide mb-1">Orchestra</p>
+                        <audio controls class="w-full h-8" src="${item.orchestra_url}"></audio>
+                    </div>
+                    <div>
+                        <p class="text-xs font-semibold text-n-strong uppercase tracking-wide mb-1">Piano</p>
+                        <audio controls class="w-full h-8" src="${item.piano_url}"></audio>
+                    </div>
+                    <div class="flex gap-4 pt-1">
+                        <a href="${item.orchestra_url}" download="orchestra.mp3" class="text-xs text-r-primary hover:text-r-strong transition">Download orchestra</a>
+                        <a href="${item.piano_url}" download="piano.mp3" class="text-xs text-r-primary hover:text-r-strong transition">Download piano</a>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+        show(libraryItems);
+    } catch (e) {
+        hide(libraryLoading);
+        libraryItems.innerHTML = '<p class="text-r-primary text-sm text-center">Failed to load library.</p>';
+        show(libraryItems);
+    }
+}
+
+// ── Inline editing ──
+let _currentSession = null;
+
+// Store session for rename calls
+async function getSession() {
+    if (_currentSession) return _currentSession;
+    const { data: { session } } = await _supabase.auth.getSession();
+    _currentSession = session;
+    return session;
+}
+
+function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}
+
+function startEditing(titleSpan, itemId) {
+    // Don't create multiple inputs
+    if (titleSpan.querySelector('input')) return;
+
+    const currentText = titleSpan.textContent.trim();
+    const originalHtml = titleSpan.innerHTML;
+
+    // Replace span content with an input
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.value = currentText;
+    input.className = 'w-full px-2 py-1 bg-white border border-r-primary rounded-lg text-sm text-n-ink ' +
+                      'focus:outline-none focus:ring-1 focus:ring-r-primary';
+    input.style.minWidth = '200px';
+
+    titleSpan.textContent = '';
+    titleSpan.appendChild(input);
+    input.focus();
+    input.select();
+
+    let saved = false;
+
+    async function save() {
+        if (saved) return;
+        saved = true;
+        const newText = input.value.trim();
+        if (!newText || newText === currentText) {
+            // Revert
+            titleSpan.textContent = currentText;
+            return;
+        }
+
+        // Optimistically update
+        titleSpan.textContent = newText;
+
+        const session = await getSession();
+        if (!session) return;
+
+        try {
+            const res = await fetch(`/api/library/${itemId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + session.access_token,
+                },
+                body: JSON.stringify({ source_label: newText }),
+            });
+
+            if (!res.ok) {
+                // Revert on error
+                titleSpan.textContent = currentText;
+            } else {
+                // Brief green flash to confirm save
+                titleSpan.classList.add('text-green-600');
+                setTimeout(() => titleSpan.classList.remove('text-green-600'), 800);
+            }
+        } catch (e) {
+            titleSpan.textContent = currentText;
+        }
+    }
+
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); save(); }
+        if (e.key === 'Escape') { saved = true; titleSpan.textContent = currentText; }
+    });
+    input.addEventListener('blur', save);
+}
+
+// Load on page ready
+loadLibrary();
+</script>
+{% endblock %}

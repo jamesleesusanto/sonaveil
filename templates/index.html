@@ -8,9 +8,24 @@
     <header class="py-6 px-8 border-b border-n-border bg-n-bg">
         <div class="max-w-6xl mx-auto flex justify-between items-center">
             <h1 class="font-display text-2xl font-bold text-r-strong">Sonaveil</h1>
-            <nav class="space-x-6 text-sm text-n-body">
+            <nav class="flex items-center space-x-6 text-sm text-n-body">
                 <a href="#how-it-works" class="hover:text-r-primary transition">How it Works</a>
+                <a href="/library" class="hover:text-r-primary transition">Library</a>
                 <a href="#about" class="hover:text-r-primary transition">About</a>
+                <!-- Auth: shown when logged out -->
+                <a id="nav-signin" href="/auth"
+                   class="ml-2 px-4 py-2 bg-r-primary hover:bg-r-strong text-white font-medium rounded-lg transition text-sm">
+                    Sign In
+                </a>
+                <!-- Auth: shown when logged in -->
+                <div id="nav-user" class="hidden flex items-center gap-3 ml-2">
+                    <span id="nav-user-email" class="text-n-strong text-sm truncate max-w-[160px]"></span>
+                    <button id="nav-logout"
+                        class="px-3 py-1.5 border border-n-border text-n-body hover:text-r-primary hover:border-r-primary
+                               rounded-lg transition text-sm">
+                        Sign Out
+                    </button>
+                </div>
             </nav>
         </div>
     </header>
@@ -22,92 +37,130 @@
                 Practice with <span class="text-r-primary">Any Orchestra</span>
             </h2>
             <p class="text-xl text-n-body mb-12 max-w-2xl mx-auto">
-                Paste a YouTube link of any concerto performance. We'll extract the orchestra
-                accompaniment so you can practice your solo part with the world's finest ensembles.
+                Paste a YouTube link or drop an audio file of any concerto performance.
+                We'll extract the orchestra accompaniment so you can practice your solo part
+                with the world's finest ensembles.
             </p>
 
-            <!-- URL Input Card — brand surface -->
+            <!-- Input Card -->
             <div class="bg-r-surface rounded-2xl p-8 shadow-sm border border-r-tint">
-                <form id="url-form" class="space-y-6">
-                    <div class="relative">
-                        <input
-                            type="url"
-                            id="youtube-url"
-                            name="url"
-                            placeholder="Paste YouTube URL here..."
-                            class="w-full px-6 py-4 bg-n-bg border border-n-border rounded-xl text-lg text-n-ink
-                                   focus:outline-none focus:border-r-primary focus:ring-1 focus:ring-r-primary
-                                   placeholder-n-muted transition"
-                            required
-                        >
-                        <svg class="absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6 text-n-muted"
-                             fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
-                        </svg>
+                <form id="url-form" class="space-y-4">
+                    <!-- Tab switcher -->
+                    <div class="flex bg-n-bg rounded-lg p-1 border border-n-border mb-2">
+                        <button type="button" id="tab-url"
+                            class="flex-1 py-2.5 px-4 rounded-md text-sm font-medium transition
+                                   bg-white text-r-primary shadow-sm border border-n-border">
+                            <svg class="inline w-4 h-4 mr-1.5 -mt-0.5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+                            </svg>
+                            YouTube URL
+                        </button>
+                        <button type="button" id="tab-file"
+                            class="flex-1 py-2.5 px-4 rounded-md text-sm font-medium transition
+                                   text-n-body hover:text-n-ink">
+                            <svg class="inline w-4 h-4 mr-1.5 -mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
+                            </svg>
+                            Audio File
+                        </button>
                     </div>
-                    <button
-                        type="submit"
+
+                    <!-- URL input panel -->
+                    <div id="panel-url">
+                        <div class="relative">
+                            <input type="url" id="youtube-url" name="url"
+                                placeholder="Paste YouTube URL here..."
+                                class="w-full px-6 py-4 bg-n-bg border border-n-border rounded-xl text-lg text-n-ink
+                                       focus:outline-none focus:border-r-primary focus:ring-1 focus:ring-r-primary
+                                       placeholder-n-muted transition">
+                            <svg class="absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6 text-n-muted" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- File upload panel -->
+                    <div id="panel-file" class="hidden">
+                        <div id="drop-zone"
+                             class="relative border-2 border-dashed border-n-border rounded-xl py-10 px-6
+                                    bg-n-bg transition cursor-pointer hover:border-r-primary hover:bg-white">
+                            <input type="file" id="file-input" accept=".mp3,.wav,.flac,.m4a,.ogg,.aac,.wma"
+                                   class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                            <div id="drop-prompt" class="text-center">
+                                <svg class="mx-auto w-10 h-10 text-n-muted mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                                </svg>
+                                <p class="text-n-body font-medium">Drop an audio file here</p>
+                                <p class="text-sm text-n-muted mt-1">or click to browse — MP3, WAV, FLAC, M4A (max 200 MB)</p>
+                            </div>
+                            <div id="drop-selected" class="hidden text-center">
+                                <svg class="mx-auto w-10 h-10 text-r-primary mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                          d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
+                                </svg>
+                                <p id="file-name" class="text-n-ink font-medium truncate"></p>
+                                <p id="file-size" class="text-sm text-n-muted mt-1"></p>
+                                <button type="button" id="clear-file"
+                                        class="text-sm text-r-primary hover:text-r-strong mt-2 transition">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit"
                         class="w-full py-4 bg-r-primary hover:bg-r-strong text-white font-semibold text-lg
                                rounded-xl transition transform hover:scale-[1.02] active:scale-[0.98]
-                               focus:outline-none focus:ring-2 focus:ring-r-primary focus:ring-offset-2
-                               focus:ring-offset-r-surface"
-                    >
+                               focus:outline-none focus:ring-2 focus:ring-r-primary focus:ring-offset-2 focus:ring-offset-r-surface">
                         Extract Orchestra Track
                     </button>
                 </form>
 
-                <!-- Processing State (hidden by default) -->
+                <!-- Processing State -->
                 <div id="processing-state" class="hidden mt-8">
                     <div class="flex items-center justify-center space-x-3">
                         <svg class="animate-spin h-6 w-6 text-r-primary" fill="none" viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                        <span id="stage-text" class="text-n-body">Processing your video...</span>
+                        <span id="stage-text" class="text-n-body">Processing your audio...</span>
                     </div>
-
-                    <!-- Progress bar (shown during stem separation) -->
                     <div id="progress-wrap" class="hidden mt-6">
                         <div class="w-full h-2 bg-n-border rounded-full overflow-hidden">
-                            <div id="progress-bar"
-                                 class="h-full bg-r-primary rounded-full transition-all duration-500 ease-out"
-                                 style="width: 0%"></div>
+                            <div id="progress-bar" class="h-full bg-r-primary rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
                         </div>
                         <p id="progress-pct" class="text-sm text-n-muted mt-2">0%</p>
                     </div>
-
                     <p class="text-sm text-n-muted mt-3">This may take a few minutes</p>
                 </div>
 
-                <!-- Error State (hidden by default) -->
+                <!-- Error State -->
                 <div id="error-state" class="hidden mt-8">
                     <p class="text-r-primary font-medium">Something went wrong. Please try again.</p>
                     <p id="error-text" class="text-sm text-n-muted mt-1"></p>
                 </div>
 
-                <!-- Results (hidden by default) -->
+                <!-- Results -->
                 <div id="results-state" class="hidden mt-8 text-left space-y-6">
                     <div>
                         <p class="text-sm font-semibold text-n-strong mb-2 uppercase tracking-wide">Orchestra Track</p>
                         <audio id="orchestra-player" controls class="w-full"></audio>
                         <a id="orchestra-download" href="#" download="orchestra.mp3"
-                           class="inline-block mt-2 text-sm text-r-primary hover:text-r-strong transition">
-                            Download orchestra track
-                        </a>
+                           class="inline-block mt-2 text-sm text-r-primary hover:text-r-strong transition">Download orchestra track</a>
                     </div>
                     <div>
                         <p class="text-sm font-semibold text-n-strong mb-2 uppercase tracking-wide">Isolated Piano</p>
                         <audio id="piano-player" controls class="w-full"></audio>
                         <a id="piano-download" href="#" download="piano.mp3"
-                           class="inline-block mt-2 text-sm text-r-primary hover:text-r-strong transition">
-                            Download piano track
-                        </a>
+                           class="inline-block mt-2 text-sm text-r-primary hover:text-r-strong transition">Download piano track</a>
                     </div>
-                    <button id="start-over"
-                        class="w-full py-3 border border-r-primary text-r-primary font-semibold rounded-xl
-                               hover:bg-r-surface transition text-sm">
-                        Process another video
-                    </button>
+                    <div class="flex gap-3">
+                        <button id="start-over"
+                            class="flex-1 py-3 border border-r-primary text-r-primary font-semibold rounded-xl
+                                   hover:bg-r-surface transition text-sm">Process another</button>
+                        <a href="/library"
+                            class="flex-1 py-3 bg-r-primary hover:bg-r-strong text-white font-semibold rounded-xl
+                                   transition text-sm text-center">View Library</a>
+                    </div>
                 </div>
             </div>
 
@@ -154,6 +207,7 @@
 
 {% block scripts %}
 <script>
+// ── DOM refs ──
 const form = document.getElementById('url-form');
 const processingState = document.getElementById('processing-state');
 const errorState = document.getElementById('error-state');
@@ -162,34 +216,127 @@ const stageText = document.getElementById('stage-text');
 const progressWrap = document.getElementById('progress-wrap');
 const progressBar = document.getElementById('progress-bar');
 const progressPct = document.getElementById('progress-pct');
+const tabUrl = document.getElementById('tab-url');
+const tabFile = document.getElementById('tab-file');
+const panelUrl = document.getElementById('panel-url');
+const panelFile = document.getElementById('panel-file');
+const fileInput = document.getElementById('file-input');
+const dropZone = document.getElementById('drop-zone');
+const dropPrompt = document.getElementById('drop-prompt');
+const dropSelected = document.getElementById('drop-selected');
+const fileNameEl = document.getElementById('file-name');
+const fileSizeEl = document.getElementById('file-size');
+const clearFileBtn = document.getElementById('clear-file');
 
+// ── Auth state ──
+let currentSession = null;
+
+function authHeaders() {
+    if (!currentSession?.access_token) return {};
+    return { 'Authorization': 'Bearer ' + currentSession.access_token };
+}
+
+async function updateAuthUI() {
+    const { data: { session } } = await _supabase.auth.getSession();
+    currentSession = session;
+    const navSignin = document.getElementById('nav-signin');
+    const navUser = document.getElementById('nav-user');
+    const navUserEmail = document.getElementById('nav-user-email');
+
+    if (session?.user) {
+        navSignin.classList.add('hidden');
+        navUser.classList.remove('hidden');
+        navUserEmail.textContent = session.user.email;
+    } else {
+        navSignin.classList.remove('hidden');
+        navUser.classList.add('hidden');
+    }
+}
+
+document.getElementById('nav-logout').addEventListener('click', async () => {
+    await _supabase.auth.signOut();
+    currentSession = null;
+    updateAuthUI();
+});
+
+_supabase.auth.onAuthStateChange((event, session) => {
+    currentSession = session;
+    updateAuthUI();
+});
+
+updateAuthUI();
+
+// ── State ──
+let activeTab = 'url';
+let selectedFile = null;
+
+// ── Helpers ──
 function show(el) { el.classList.remove('hidden'); }
 function hide(el) { el.classList.add('hidden'); }
 
-function updateProgress(pct) {
-    if (pct === null || pct === undefined) {
-        hide(progressWrap);
-        return;
+function formatBytes(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+}
+
+// ── Tab switching ──
+const activeTabClasses = ['bg-white', 'text-r-primary', 'shadow-sm', 'border', 'border-n-border'];
+const inactiveTabClasses = ['text-n-body', 'hover:text-n-ink'];
+
+function switchTab(tab) {
+    activeTab = tab;
+    if (tab === 'url') {
+        show(panelUrl); hide(panelFile);
+        tabUrl.classList.add(...activeTabClasses); tabUrl.classList.remove(...inactiveTabClasses);
+        tabFile.classList.remove(...activeTabClasses); tabFile.classList.add(...inactiveTabClasses);
+    } else {
+        hide(panelUrl); show(panelFile);
+        tabFile.classList.add(...activeTabClasses); tabFile.classList.remove(...inactiveTabClasses);
+        tabUrl.classList.remove(...activeTabClasses); tabUrl.classList.add(...inactiveTabClasses);
     }
-    show(progressWrap);
-    progressBar.style.width = pct + '%';
-    progressPct.textContent = pct + '%';
+}
+tabUrl.addEventListener('click', () => switchTab('url'));
+tabFile.addEventListener('click', () => switchTab('file'));
+
+// ── File selection ──
+function setFile(file) {
+    if (!file) return;
+    selectedFile = file;
+    fileNameEl.textContent = file.name;
+    fileSizeEl.textContent = formatBytes(file.size);
+    hide(dropPrompt); show(dropSelected);
+    dropZone.classList.add('border-r-primary', 'bg-white'); dropZone.classList.remove('border-n-border');
+}
+function clearFile() {
+    selectedFile = null; fileInput.value = '';
+    show(dropPrompt); hide(dropSelected);
+    dropZone.classList.remove('border-r-primary', 'bg-white'); dropZone.classList.add('border-n-border');
+}
+fileInput.addEventListener('change', (e) => { if (e.target.files.length) setFile(e.target.files[0]); });
+clearFileBtn.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); clearFile(); });
+
+// ── Drag & drop ──
+dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('border-r-primary', 'bg-white'); });
+dropZone.addEventListener('dragleave', (e) => { e.preventDefault(); if (!selectedFile) dropZone.classList.remove('border-r-primary', 'bg-white'); });
+dropZone.addEventListener('drop', (e) => { e.preventDefault(); if (e.dataTransfer.files.length) setFile(e.dataTransfer.files[0]); });
+
+// ── Progress & status ──
+function updateProgress(pct) {
+    if (pct === null || pct === undefined) { hide(progressWrap); return; }
+    show(progressWrap); progressBar.style.width = pct + '%'; progressPct.textContent = pct + '%';
 }
 
 function showError(msg) {
-    hide(processingState);
-    hide(form);
-    document.getElementById('error-text').textContent = msg;
-    show(errorState);
+    hide(processingState); hide(form);
+    document.getElementById('error-text').textContent = msg; show(errorState);
     setTimeout(() => { hide(errorState); show(form); }, 5000);
 }
 
 function showResults(data) {
     hide(processingState);
-    const orchPlayer = document.getElementById('orchestra-player');
-    const pianoPlayer = document.getElementById('piano-player');
-    orchPlayer.src = data.orchestra_url;
-    pianoPlayer.src = data.piano_url;
+    document.getElementById('orchestra-player').src = data.orchestra_url;
+    document.getElementById('piano-player').src = data.piano_url;
     document.getElementById('orchestra-download').href = data.orchestra_url;
     document.getElementById('piano-download').href = data.piano_url;
     show(resultsState);
@@ -200,55 +347,47 @@ async function pollStatus(jobId) {
         try {
             const res = await fetch(`/status/${jobId}`);
             const data = await res.json();
-
             if (data.stage) stageText.textContent = data.stage;
             updateProgress(data.progress);
-
-            if (data.status === 'done') {
-                clearInterval(interval);
-                showResults(data);
-            } else if (data.status === 'error') {
-                clearInterval(interval);
-                showError(data.error || 'Unknown error');
-            }
-        } catch (e) {
-            clearInterval(interval);
-            showError('Lost connection to server.');
-        }
+            if (data.status === 'done') { clearInterval(interval); showResults(data); }
+            else if (data.status === 'error') { clearInterval(interval); showError(data.error || 'Unknown error'); }
+        } catch (e) { clearInterval(interval); showError('Lost connection to server.'); }
     }, 3000);
 }
 
+// ── Form submission ──
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const url = document.getElementById('youtube-url').value;
-
-    hide(form);
-    stageText.textContent = 'Starting...';
-    updateProgress(null);
-    show(processingState);
+    hide(form); stageText.textContent = 'Starting...'; updateProgress(null); show(processingState);
 
     try {
-        const res = await fetch('/process', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ url })
-        });
-        const data = await res.json();
+        let res;
+        const headers = authHeaders();
 
+        if (activeTab === 'file' && selectedFile) {
+            stageText.textContent = 'Uploading audio...';
+            const formData = new FormData();
+            formData.append('file', selectedFile);
+            res = await fetch('/upload', { method: 'POST', body: formData, headers });
+        } else {
+            const url = document.getElementById('youtube-url').value.trim();
+            if (!url) { showError('Please enter a YouTube URL.'); return; }
+            res = await fetch('/process', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', ...headers },
+                body: JSON.stringify({ url })
+            });
+        }
+        const data = await res.json();
         if (data.error) { showError(data.error); return; }
         pollStatus(data.job_id);
-
-    } catch (e) {
-        showError('Failed to reach server.');
-    }
+    } catch (e) { showError('Failed to reach server.'); }
 });
 
+// ── Start over ──
 document.getElementById('start-over').addEventListener('click', () => {
-    hide(resultsState);
-    hide(processingState);
-    updateProgress(null);
-    document.getElementById('youtube-url').value = '';
-    show(form);
+    hide(resultsState); hide(processingState); updateProgress(null);
+    document.getElementById('youtube-url').value = ''; clearFile(); show(form);
 });
 </script>
 {% endblock %}

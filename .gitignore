@@ -41,3 +41,5 @@ pre-train/
 
 pipeline.txt
 .claude
+
+*.sql

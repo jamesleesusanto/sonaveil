@@ -3,3 +3,7 @@ yt-dlp
 demucs
 torch
 torchaudio
+supabase
+python-dotenv
+PyJWT
+requests

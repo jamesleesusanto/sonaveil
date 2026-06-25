@@ -1,0 +1,370 @@
+{% extends "base.html" %}
+
+{% block title %}Sign In - Sonaveil{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="py-6 px-8 border-b border-n-border bg-n-bg">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <a href="/" class="font-display text-2xl font-bold text-r-strong">Sonaveil</a>
+        </div>
+    </header>
+
+    <main class="flex-1 flex items-center justify-center px-8 py-16">
+        <div class="max-w-md w-full">
+            <!-- ── Sign In view ── -->
+            <div id="view-signin">
+                <h2 class="font-display text-3xl font-bold text-n-ink text-center mb-2">Welcome back</h2>
+                <p class="text-n-body text-center mb-8">Sign in to access your library</p>
+
+                <div class="bg-r-surface rounded-2xl p-8 shadow-sm border border-r-tint space-y-5">
+                    <!-- Google sign in -->
+                    <button id="btn-google" type="button"
+                        class="w-full py-3 px-4 bg-white border border-n-border rounded-xl text-sm font-medium
+                               text-n-ink hover:bg-n-light transition flex items-center justify-center gap-3">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                        </svg>
+                        Continue with Google
+                    </button>
+
+                    <div class="flex items-center gap-3">
+                        <div class="flex-1 h-px bg-n-border"></div>
+                        <span class="text-xs text-n-muted uppercase tracking-wide">or</span>
+                        <div class="flex-1 h-px bg-n-border"></div>
+                    </div>
+
+                    <!-- Email / password -->
+                    <form id="form-signin" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-n-strong mb-1">Email</label>
+                            <input type="email" id="signin-email" required
+                                class="w-full px-4 py-3 bg-n-bg border border-n-border rounded-xl text-n-ink
+                                       focus:outline-none focus:border-r-primary focus:ring-1 focus:ring-r-primary
+                                       placeholder-n-muted transition text-sm"
+                                placeholder="you@example.com">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-n-strong mb-1">Password</label>
+                            <input type="password" id="signin-password" required minlength="6"
+                                class="w-full px-4 py-3 bg-n-bg border border-n-border rounded-xl text-n-ink
+                                       focus:outline-none focus:border-r-primary focus:ring-1 focus:ring-r-primary
+                                       placeholder-n-muted transition text-sm"
+                                placeholder="••••••••">
+                        </div>
+                        <button type="submit"
+                            class="w-full py-3 bg-r-primary hover:bg-r-strong text-white font-semibold
+                                   rounded-xl transition text-sm">
+                            Sign In
+                        </button>
+                    </form>
+
+                    <div class="flex justify-between text-sm">
+                        <button id="goto-forgot" class="text-r-primary hover:text-r-strong transition">
+                            Forgot password?
+                        </button>
+                        <button id="goto-signup" class="text-r-primary hover:text-r-strong transition">
+                            Create account
+                        </button>
+                    </div>
+                </div>
+
+                <p id="signin-error" class="hidden mt-4 text-center text-sm text-r-primary"></p>
+            </div>
+
+            <!-- ── Sign Up view ── -->
+            <div id="view-signup" class="hidden">
+                <h2 class="font-display text-3xl font-bold text-n-ink text-center mb-2">Create account</h2>
+                <p class="text-n-body text-center mb-8">Start saving your extractions</p>
+
+                <div class="bg-r-surface rounded-2xl p-8 shadow-sm border border-r-tint space-y-5">
+                    <button id="btn-google-signup" type="button"
+                        class="w-full py-3 px-4 bg-white border border-n-border rounded-xl text-sm font-medium
+                               text-n-ink hover:bg-n-light transition flex items-center justify-center gap-3">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                        </svg>
+                        Continue with Google
+                    </button>
+
+                    <div class="flex items-center gap-3">
+                        <div class="flex-1 h-px bg-n-border"></div>
+                        <span class="text-xs text-n-muted uppercase tracking-wide">or</span>
+                        <div class="flex-1 h-px bg-n-border"></div>
+                    </div>
+
+                    <form id="form-signup" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-n-strong mb-1">Email</label>
+                            <input type="email" id="signup-email" required
+                                class="w-full px-4 py-3 bg-n-bg border border-n-border rounded-xl text-n-ink
+                                       focus:outline-none focus:border-r-primary focus:ring-1 focus:ring-r-primary
+                                       placeholder-n-muted transition text-sm"
+                                placeholder="you@example.com">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-n-strong mb-1">Password</label>
+                            <input type="password" id="signup-password" required minlength="6"
+                                class="w-full px-4 py-3 bg-n-bg border border-n-border rounded-xl text-n-ink
+                                       focus:outline-none focus:border-r-primary focus:ring-1 focus:ring-r-primary
+                                       placeholder-n-muted transition text-sm"
+                                placeholder="At least 6 characters">
+                        </div>
+                        <button type="submit"
+                            class="w-full py-3 bg-r-primary hover:bg-r-strong text-white font-semibold
+                                   rounded-xl transition text-sm">
+                            Create Account
+                        </button>
+                    </form>
+
+                    <p class="text-center text-sm text-n-body">
+                        Already have an account?
+                        <button id="goto-signin-from-signup" class="text-r-primary hover:text-r-strong transition">Sign in</button>
+                    </p>
+                </div>
+
+                <p id="signup-error" class="hidden mt-4 text-center text-sm text-r-primary"></p>
+            </div>
+
+            <!-- ── Check Email view (after sign up) ── -->
+            <div id="view-check-email" class="hidden">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-r-surface rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-r-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <h2 class="font-display text-3xl font-bold text-n-ink mb-2">Check your email</h2>
+                    <p class="text-n-body mb-2">
+                        We sent a confirmation link to
+                    </p>
+                    <p class="text-n-ink font-medium text-lg mb-6" id="check-email-address"></p>
+
+                    <div class="bg-r-surface rounded-2xl p-6 shadow-sm border border-r-tint text-left space-y-3">
+                        <div class="flex items-start gap-3">
+                            <span class="text-r-primary font-bold text-lg mt-0.5">1</span>
+                            <p class="text-n-body text-sm">Open the email from <strong class="text-n-ink">Supabase Auth</strong> (check spam if needed)</p>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-r-primary font-bold text-lg mt-0.5">2</span>
+                            <p class="text-n-body text-sm">Click the <strong class="text-n-ink">Confirm email address</strong> link</p>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-r-primary font-bold text-lg mt-0.5">3</span>
+                            <p class="text-n-body text-sm">Come back here and <strong class="text-n-ink">sign in</strong> with your email and password</p>
+                        </div>
+                    </div>
+
+                    <button id="goto-signin-from-check"
+                        class="mt-6 px-6 py-3 bg-r-primary hover:bg-r-strong text-white font-semibold
+                               rounded-xl transition text-sm">
+                        Go to Sign In
+                    </button>
+                </div>
+            </div>
+
+            <!-- ── Forgot Password view ── -->
+            <div id="view-forgot" class="hidden">
+                <h2 class="font-display text-3xl font-bold text-n-ink text-center mb-2">Reset password</h2>
+                <p class="text-n-body text-center mb-8">We'll send you a reset link</p>
+
+                <div class="bg-r-surface rounded-2xl p-8 shadow-sm border border-r-tint">
+                    <form id="form-forgot" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-n-strong mb-1">Email</label>
+                            <input type="email" id="forgot-email" required
+                                class="w-full px-4 py-3 bg-n-bg border border-n-border rounded-xl text-n-ink
+                                       focus:outline-none focus:border-r-primary focus:ring-1 focus:ring-r-primary
+                                       placeholder-n-muted transition text-sm"
+                                placeholder="you@example.com">
+                        </div>
+                        <button type="submit"
+                            class="w-full py-3 bg-r-primary hover:bg-r-strong text-white font-semibold
+                                   rounded-xl transition text-sm">
+                            Send Reset Link
+                        </button>
+                    </form>
+
+                    <p class="text-center text-sm text-n-body mt-4">
+                        <button id="goto-signin-from-forgot" class="text-r-primary hover:text-r-strong transition">
+                            Back to sign in
+                        </button>
+                    </p>
+                </div>
+
+                <p id="forgot-msg" class="hidden mt-4 text-center text-sm"></p>
+            </div>
+
+            <!-- ── Reset Password view (shown after clicking reset link) ── -->
+            <div id="view-reset" class="hidden">
+                <h2 class="font-display text-3xl font-bold text-n-ink text-center mb-2">Set new password</h2>
+                <p class="text-n-body text-center mb-8">Enter your new password below</p>
+
+                <div class="bg-r-surface rounded-2xl p-8 shadow-sm border border-r-tint">
+                    <form id="form-reset" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-n-strong mb-1">New password</label>
+                            <input type="password" id="reset-password" required minlength="6"
+                                class="w-full px-4 py-3 bg-n-bg border border-n-border rounded-xl text-n-ink
+                                       focus:outline-none focus:border-r-primary focus:ring-1 focus:ring-r-primary
+                                       placeholder-n-muted transition text-sm"
+                                placeholder="At least 6 characters">
+                        </div>
+                        <button type="submit"
+                            class="w-full py-3 bg-r-primary hover:bg-r-strong text-white font-semibold
+                                   rounded-xl transition text-sm">
+                            Update Password
+                        </button>
+                    </form>
+                </div>
+
+                <p id="reset-msg" class="hidden mt-4 text-center text-sm"></p>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// ── Views ──
+const views = {
+    signin: document.getElementById('view-signin'),
+    signup: document.getElementById('view-signup'),
+    checkEmail: document.getElementById('view-check-email'),
+    forgot: document.getElementById('view-forgot'),
+    reset:  document.getElementById('view-reset'),
+};
+
+function showView(name) {
+    Object.values(views).forEach(v => v.classList.add('hidden'));
+    views[name].classList.remove('hidden');
+}
+
+// ── Navigation between views ──
+document.getElementById('goto-signup').addEventListener('click', () => showView('signup'));
+document.getElementById('goto-forgot').addEventListener('click', () => showView('forgot'));
+document.getElementById('goto-signin-from-signup').addEventListener('click', () => showView('signin'));
+document.getElementById('goto-signin-from-forgot').addEventListener('click', () => showView('signin'));
+document.getElementById('goto-signin-from-check').addEventListener('click', () => showView('signin'));
+
+// ── Error display helpers ──
+function showErr(id, msg) {
+    const el = document.getElementById(id);
+    el.textContent = msg;
+    el.classList.remove('hidden');
+    setTimeout(() => el.classList.add('hidden'), 6000);
+}
+
+// ── Google OAuth ──
+async function signInWithGoogle() {
+    const { error } = await _supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: { redirectTo: window.location.origin + '/' }
+    });
+    if (error) showErr('signin-error', error.message);
+}
+
+document.getElementById('btn-google').addEventListener('click', signInWithGoogle);
+document.getElementById('btn-google-signup').addEventListener('click', signInWithGoogle);
+
+// ── Email Sign Up ──
+document.getElementById('form-signup').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('signup-email').value.trim();
+    const password = document.getElementById('signup-password').value;
+
+    const { data, error } = await _supabase.auth.signUp({ email, password });
+
+    if (error) {
+        showErr('signup-error', error.message);
+        return;
+    }
+
+    if (data.user && !data.session) {
+        // Email confirmation required — show "check your email" view
+        document.getElementById('check-email-address').textContent = email;
+        showView('checkEmail');
+    } else {
+        // Auto-confirmed — go home
+        window.location.href = '/';
+    }
+});
+
+// ── Email Sign In ──
+document.getElementById('form-signin').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('signin-email').value.trim();
+    const password = document.getElementById('signin-password').value;
+
+    const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
+
+    if (error) {
+        showErr('signin-error', error.message);
+        return;
+    }
+
+    window.location.href = '/';
+});
+
+// ── Forgot Password ──
+document.getElementById('form-forgot').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('forgot-email').value.trim();
+
+    const { error } = await _supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: window.location.origin + '/auth#reset',
+    });
+
+    const msgEl = document.getElementById('forgot-msg');
+    if (error) {
+        msgEl.textContent = error.message;
+        msgEl.className = 'mt-4 text-center text-sm text-r-primary';
+    } else {
+        msgEl.textContent = 'Check your email for a reset link!';
+        msgEl.className = 'mt-4 text-center text-sm text-green-600';
+    }
+    msgEl.classList.remove('hidden');
+});
+
+// ── Reset Password (after clicking email link) ──
+document.getElementById('form-reset').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const password = document.getElementById('reset-password').value;
+
+    const { error } = await _supabase.auth.updateUser({ password });
+
+    const msgEl = document.getElementById('reset-msg');
+    if (error) {
+        msgEl.textContent = error.message;
+        msgEl.className = 'mt-4 text-center text-sm text-r-primary';
+    } else {
+        msgEl.textContent = 'Password updated! Redirecting...';
+        msgEl.className = 'mt-4 text-center text-sm text-green-600';
+        setTimeout(() => window.location.href = '/', 1500);
+    }
+    msgEl.classList.remove('hidden');
+});
+
+// ── On page load ──
+(async () => {
+    if (window.location.hash.includes('reset') || window.location.hash.includes('type=recovery')) {
+        showView('reset');
+        return;
+    }
+
+    const { data: { session } } = await _supabase.auth.getSession();
+    if (session && !window.location.hash.includes('reset')) {
+        window.location.href = '/';
+    }
+})();
+</script>
+{% endblock %}
