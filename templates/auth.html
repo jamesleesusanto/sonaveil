@@ -5,9 +5,9 @@
 {% block content %}
 <div class="min-h-screen flex flex-col">
     <!-- Header -->
-    <header class="py-6 px-8 border-b border-n-border bg-n-bg">
+    <header class="py-6 px-8 border-b border-n-border bg-n-bg sticky top-0 z-50">
         <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <a href="/" class="font-display text-2xl font-bold text-r-strong">Sonaveil</a>
+            <a href="/" class="font-display text-2xl font-bold text-g-primary">Sonaveil</a>
         </div>
     </header>
 
@@ -18,11 +18,11 @@
                 <h2 class="font-display text-3xl font-bold text-n-ink text-center mb-2">Welcome back</h2>
                 <p class="text-n-body text-center mb-8">Sign in to access your library</p>
 
-                <div class="bg-r-surface rounded-2xl p-8 shadow-sm border border-r-tint space-y-5">
+                <div class="bg-n-light rounded-2xl p-8 shadow-sm border border-n-border space-y-5">
                     <!-- Google sign in -->
                     <button id="btn-google" type="button"
-                        class="w-full py-3 px-4 bg-white border border-n-border rounded-xl text-sm font-medium
-                               text-n-ink hover:bg-n-light transition flex items-center justify-center gap-3">
+                        class="w-full py-3 px-4 bg-r-dark border border-n-border rounded-xl text-sm font-medium
+                               text-n-ink hover:bg-r-surface transition flex items-center justify-center gap-3">
                         <svg class="w-5 h-5" viewBox="0 0 24 24">
                             <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/>
                             <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -57,7 +57,7 @@
                                 placeholder="••••••••">
                         </div>
                         <button type="submit"
-                            class="w-full py-3 bg-r-primary hover:bg-r-strong text-white font-semibold
+                            class="w-full py-3 bg-r-primary hover:bg-r-mid text-n-bg font-semibold
                                    rounded-xl transition text-sm">
                             Sign In
                         </button>
@@ -81,10 +81,10 @@
                 <h2 class="font-display text-3xl font-bold text-n-ink text-center mb-2">Create account</h2>
                 <p class="text-n-body text-center mb-8">Start saving your extractions</p>
 
-                <div class="bg-r-surface rounded-2xl p-8 shadow-sm border border-r-tint space-y-5">
+                <div class="bg-n-light rounded-2xl p-8 shadow-sm border border-n-border space-y-5">
                     <button id="btn-google-signup" type="button"
-                        class="w-full py-3 px-4 bg-white border border-n-border rounded-xl text-sm font-medium
-                               text-n-ink hover:bg-n-light transition flex items-center justify-center gap-3">
+                        class="w-full py-3 px-4 bg-r-dark border border-n-border rounded-xl text-sm font-medium
+                               text-n-ink hover:bg-r-surface transition flex items-center justify-center gap-3">
                         <svg class="w-5 h-5" viewBox="0 0 24 24">
                             <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/>
                             <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -118,7 +118,7 @@
                                 placeholder="At least 6 characters">
                         </div>
                         <button type="submit"
-                            class="w-full py-3 bg-r-primary hover:bg-r-strong text-white font-semibold
+                            class="w-full py-3 bg-r-primary hover:bg-r-mid text-n-bg font-semibold
                                    rounded-xl transition text-sm">
                             Create Account
                         </button>
@@ -136,7 +136,7 @@
             <!-- ── Check Email view (after sign up) ── -->
             <div id="view-check-email" class="hidden">
                 <div class="text-center">
-                    <div class="w-16 h-16 bg-r-surface rounded-full flex items-center justify-center mx-auto mb-6">
+                    <div class="w-16 h-16 bg-n-light rounded-full flex items-center justify-center mx-auto mb-6">
                         <svg class="w-8 h-8 text-r-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                   d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
@@ -148,7 +148,7 @@
                     </p>
                     <p class="text-n-ink font-medium text-lg mb-6" id="check-email-address"></p>
 
-                    <div class="bg-r-surface rounded-2xl p-6 shadow-sm border border-r-tint text-left space-y-3">
+                    <div class="bg-n-light rounded-2xl p-6 shadow-sm border border-n-border text-left space-y-3">
                         <div class="flex items-start gap-3">
                             <span class="text-r-primary font-bold text-lg mt-0.5">1</span>
                             <p class="text-n-body text-sm">Open the email from <strong class="text-n-ink">Supabase Auth</strong> (check spam if needed)</p>
@@ -164,7 +164,7 @@
                     </div>
 
                     <button id="goto-signin-from-check"
-                        class="mt-6 px-6 py-3 bg-r-primary hover:bg-r-strong text-white font-semibold
+                        class="mt-6 px-6 py-3 bg-r-primary hover:bg-r-mid text-n-bg font-semibold
                                rounded-xl transition text-sm">
                         Go to Sign In
                     </button>
@@ -176,7 +176,7 @@
                 <h2 class="font-display text-3xl font-bold text-n-ink text-center mb-2">Reset password</h2>
                 <p class="text-n-body text-center mb-8">We'll send you a reset link</p>
 
-                <div class="bg-r-surface rounded-2xl p-8 shadow-sm border border-r-tint">
+                <div class="bg-n-light rounded-2xl p-8 shadow-sm border border-n-border">
                     <form id="form-forgot" class="space-y-4">
                         <div>
                             <label class="block text-sm font-medium text-n-strong mb-1">Email</label>
@@ -187,7 +187,7 @@
                                 placeholder="you@example.com">
                         </div>
                         <button type="submit"
-                            class="w-full py-3 bg-r-primary hover:bg-r-strong text-white font-semibold
+                            class="w-full py-3 bg-r-primary hover:bg-r-mid text-n-bg font-semibold
                                    rounded-xl transition text-sm">
                             Send Reset Link
                         </button>
@@ -208,7 +208,7 @@
                 <h2 class="font-display text-3xl font-bold text-n-ink text-center mb-2">Set new password</h2>
                 <p class="text-n-body text-center mb-8">Enter your new password below</p>
 
-                <div class="bg-r-surface rounded-2xl p-8 shadow-sm border border-r-tint">
+                <div class="bg-n-light rounded-2xl p-8 shadow-sm border border-n-border">
                     <form id="form-reset" class="space-y-4">
                         <div>
                             <label class="block text-sm font-medium text-n-strong mb-1">New password</label>
@@ -219,7 +219,7 @@
                                 placeholder="At least 6 characters">
                         </div>
                         <button type="submit"
-                            class="w-full py-3 bg-r-primary hover:bg-r-strong text-white font-semibold
+                            class="w-full py-3 bg-r-primary hover:bg-r-mid text-n-bg font-semibold
                                    rounded-xl transition text-sm">
                             Update Password
                         </button>

@@ -10,22 +10,27 @@
             theme: {
                 extend: {
                     colors: {
-                        // Red scale
-                        'r-surface': '#FCEBEB',
-                        'r-tint':    '#F7C1C1',
-                        'r-mid':     '#F09595',
-                        'r-primary': '#E24B4A',
-                        'r-strong':  '#A32D2D',
-                        'r-dark':    '#791F1F',
-                        'r-ink':     '#501313',
-                        // Neutral warm scale
-                        'n-bg':      '#FFFAFA',
-                        'n-light':   '#F5EDED',
-                        'n-border':  '#E8D8D8',
-                        'n-muted':   '#C4A0A0',
-                        'n-body':    '#7A4848',
-                        'n-strong':  '#4A2424',
-                        'n-ink':     '#1A0808',
+                        // Accent – steel-blue (piano) & gold (orchestra)
+                        'r-surface': '#0F2240',
+                        'r-tint':    '#1A3A6A',
+                        'r-mid':     '#4A8FD4',
+                        'r-primary': '#4A8FD4',
+                        'r-strong':  '#8FC4F0',
+                        'r-dark':    '#0A1A30',
+                        'r-ink':     '#EDE8DC',
+                        // Gold accent
+                        'g-primary': '#B89A52',
+                        'g-strong':  '#C4943A',
+                        'g-surface': '#1A0F0A',
+                        'g-tint':    '#4A2A10',
+                        // Neutral dark scale
+                        'n-bg':      '#0D1829',
+                        'n-light':   '#0A1120',
+                        'n-border':  '#1A3A6A',
+                        'n-muted':   '#5A7090',
+                        'n-body':    '#7A8FA6',
+                        'n-strong':  '#EDE8DC',
+                        'n-ink':     '#EDE8DC',
                     }
                 }
             }
@@ -35,6 +40,12 @@
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
         .font-display { font-family: 'Playfair Display', serif; }
         .font-body { font-family: 'Inter', sans-serif; }
+
+        /* Dark-themed audio player via color-scheme */
+        audio {
+            filter: invert(1) hue-rotate(180deg);
+            border-radius: 8px;
+        }
     </style>
     <!-- Supabase JS client for auth -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>

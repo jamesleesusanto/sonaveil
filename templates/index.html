@@ -5,16 +5,16 @@
 {% block content %}
 <div class="min-h-screen flex flex-col">
     <!-- Header -->
-    <header class="py-6 px-8 border-b border-n-border bg-n-bg">
+    <header class="py-6 px-8 border-b border-n-border bg-n-bg sticky top-0 z-50">
         <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <h1 class="font-display text-2xl font-bold text-r-strong">Sonaveil</h1>
+            <a href="/" class="font-display text-2xl font-bold text-g-primary" onclick="window.scrollTo({top:0,behavior:'smooth'}); return window.location.pathname==='/' ? !0 : true;">Sonaveil</a>
             <nav class="flex items-center space-x-6 text-sm text-n-body">
-                <a href="#how-it-works" class="hover:text-r-primary transition">How it Works</a>
-                <a href="/library" class="hover:text-r-primary transition">Library</a>
-                <a href="#about" class="hover:text-r-primary transition">About</a>
+                <a href="#how-it-works" class="hover:text-g-primary transition">How it Works</a>
+                <a href="/library" class="hover:text-g-primary transition">Library</a>
+                <a href="#about" class="hover:text-g-primary transition">About</a>
                 <!-- Auth: shown when logged out -->
                 <a id="nav-signin" href="/auth"
-                   class="ml-2 px-4 py-2 bg-r-primary hover:bg-r-strong text-white font-medium rounded-lg transition text-sm">
+                   class="ml-2 px-4 py-2 bg-r-primary hover:bg-r-mid text-n-bg font-medium rounded-lg transition text-sm">
                     Sign In
                 </a>
                 <!-- Auth: shown when logged in -->
@@ -34,7 +34,7 @@
     <main class="flex-1 flex items-center justify-center px-8 py-16">
         <div class="max-w-3xl w-full text-center">
             <h2 class="font-display text-5xl md:text-6xl font-bold mb-6 leading-tight text-n-ink">
-                Practice with <span class="text-r-primary">Any Orchestra</span>
+                Practice with <span class="text-g-primary">Any Orchestra</span>
             </h2>
             <p class="text-xl text-n-body mb-12 max-w-2xl mx-auto">
                 Paste a YouTube link or drop an audio file of any concerto performance.
@@ -43,13 +43,13 @@
             </p>
 
             <!-- Input Card -->
-            <div class="bg-r-surface rounded-2xl p-8 shadow-sm border border-r-tint">
+            <div class="bg-n-light rounded-2xl p-8 shadow-sm border border-n-border">
                 <form id="url-form" class="space-y-4">
                     <!-- Tab switcher -->
-                    <div class="flex bg-n-bg rounded-lg p-1 border border-n-border mb-2">
+                    <div class="flex bg-r-dark rounded-lg p-1 border border-n-border mb-2">
                         <button type="button" id="tab-url"
                             class="flex-1 py-2.5 px-4 rounded-md text-sm font-medium transition
-                                   bg-white text-r-primary shadow-sm border border-n-border">
+                                   bg-r-surface text-r-primary shadow-sm border border-n-border">
                             <svg class="inline w-4 h-4 mr-1.5 -mt-0.5" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
                             </svg>
@@ -70,7 +70,7 @@
                         <div class="relative">
                             <input type="url" id="youtube-url" name="url"
                                 placeholder="Paste YouTube URL here..."
-                                class="w-full px-6 py-4 bg-n-bg border border-n-border rounded-xl text-lg text-n-ink
+                                class="w-full px-6 py-4 bg-r-dark border border-n-border rounded-xl text-lg text-n-ink
                                        focus:outline-none focus:border-r-primary focus:ring-1 focus:ring-r-primary
                                        placeholder-n-muted transition">
                             <svg class="absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6 text-n-muted" fill="currentColor" viewBox="0 0 24 24">
@@ -82,8 +82,8 @@
                     <!-- File upload panel -->
                     <div id="panel-file" class="hidden">
                         <div id="drop-zone"
-                             class="relative border-2 border-dashed border-n-border rounded-xl py-10 px-6
-                                    bg-n-bg transition cursor-pointer hover:border-r-primary hover:bg-white">
+                         class="relative border-2 border-dashed border-n-border rounded-xl py-10 px-6
+                                     bg-r-dark transition cursor-pointer hover:border-r-primary hover:bg-r-surface">
                             <input type="file" id="file-input" accept=".mp3,.wav,.flac,.m4a,.ogg,.aac,.wma"
                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
                             <div id="drop-prompt" class="text-center">
@@ -108,9 +108,9 @@
                     </div>
 
                     <button type="submit"
-                        class="w-full py-4 bg-r-primary hover:bg-r-strong text-white font-semibold text-lg
+                        class="w-full py-4 bg-r-primary hover:bg-r-mid text-n-bg font-semibold text-lg
                                rounded-xl transition transform hover:scale-[1.02] active:scale-[0.98]
-                               focus:outline-none focus:ring-2 focus:ring-r-primary focus:ring-offset-2 focus:ring-offset-r-surface">
+                               focus:outline-none focus:ring-2 focus:ring-r-primary focus:ring-offset-2 focus:ring-offset-n-light">
                         Extract Orchestra Track
                     </button>
                 </form>
@@ -126,9 +126,9 @@
                     </div>
                     <div id="progress-wrap" class="hidden mt-6">
                         <div class="w-full h-2 bg-n-border rounded-full overflow-hidden">
-                            <div id="progress-bar" class="h-full bg-r-primary rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
+                            <div id="progress-bar" class="h-full bg-g-primary rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
                         </div>
-                        <p id="progress-pct" class="text-sm text-n-muted mt-2">0%</p>
+                        <p id="progress-pct" class="text-sm text-g-primary mt-2">0%</p>
                     </div>
                     <p class="text-sm text-n-muted mt-3">This may take a few minutes</p>
                 </div>
@@ -142,10 +142,10 @@
                 <!-- Results -->
                 <div id="results-state" class="hidden mt-8 text-left space-y-6">
                     <div>
-                        <p class="text-sm font-semibold text-n-strong mb-2 uppercase tracking-wide">Orchestra Track</p>
+                        <p class="text-sm font-semibold text-g-primary mb-2 uppercase tracking-wide">Orchestra Track</p>
                         <audio id="orchestra-player" controls class="w-full"></audio>
                         <a id="orchestra-download" href="#" download="orchestra.mp3"
-                           class="inline-block mt-2 text-sm text-r-primary hover:text-r-strong transition">Download orchestra track</a>
+                           class="inline-block mt-2 text-sm text-g-primary hover:text-g-strong transition">Download orchestra track</a>
                     </div>
                     <div>
                         <p class="text-sm font-semibold text-n-strong mb-2 uppercase tracking-wide">Isolated Piano</p>
@@ -156,9 +156,9 @@
                     <div class="flex gap-3">
                         <button id="start-over"
                             class="flex-1 py-3 border border-r-primary text-r-primary font-semibold rounded-xl
-                                   hover:bg-r-surface transition text-sm">Process another</button>
+                                   hover:bg-r-dark transition text-sm">Process another</button>
                         <a href="/library"
-                            class="flex-1 py-3 bg-r-primary hover:bg-r-strong text-white font-semibold rounded-xl
+                            class="flex-1 py-3 bg-r-primary hover:bg-r-mid text-n-bg font-semibold rounded-xl
                                    transition text-sm text-center">View Library</a>
                     </div>
                 </div>
@@ -197,6 +197,65 @@
             </div>
         </div>
     </main>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="px-8 py-20 border-t border-n-border">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="font-display text-3xl font-bold text-n-ink text-center mb-4">How It Works</h2>
+            <p class="text-n-body text-center mb-12 max-w-2xl mx-auto">Three simple steps to get your practice-ready orchestra accompaniment.</p>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="w-14 h-14 bg-r-surface rounded-full flex items-center justify-center mx-auto mb-4 border border-n-border">
+                        <span class="text-g-primary font-bold text-xl">1</span>
+                    </div>
+                    <h3 class="font-display text-lg font-semibold text-n-ink mb-2">Upload or Paste</h3>
+                    <p class="text-n-body text-sm">Paste a YouTube URL of any concerto performance, or upload an audio file (MP3, WAV, FLAC, M4A — up to 200 MB).</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-14 h-14 bg-r-surface rounded-full flex items-center justify-center mx-auto mb-4 border border-n-border">
+                        <span class="text-g-primary font-bold text-xl">2</span>
+                    </div>
+                    <h3 class="font-display text-lg font-semibold text-n-ink mb-2">AI Separation</h3>
+                    <p class="text-n-body text-sm">Our AI model (Demucs htdemucs_6s) separates the audio into individual stems — piano, bass, drums, guitar, vocals, and more — then mixes all non-piano stems into a clean orchestra track.</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-14 h-14 bg-r-surface rounded-full flex items-center justify-center mx-auto mb-4 border border-n-border">
+                        <span class="text-g-primary font-bold text-xl">3</span>
+                    </div>
+                    <h3 class="font-display text-lg font-semibold text-n-ink mb-2">Practice & Download</h3>
+                    <p class="text-n-body text-sm">Listen to the isolated piano and orchestra tracks right in your browser. Download them as MP3s and practice along with any orchestra in the world.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="px-8 py-20 border-t border-n-border">
+        <div class="max-w-3xl mx-auto text-center">
+            <h2 class="font-display text-3xl font-bold text-n-ink mb-6">About Sonaveil</h2>
+            <p class="text-n-body text-lg mb-6">
+                Sonaveil was born out of a simple frustration: finding good orchestra-minus-one
+                tracks for concerto practice is expensive, limited, and often low quality.
+            </p>
+            <p class="text-n-body mb-6">
+                With advances in AI audio separation, we realized we could let pianists (and eventually
+                all soloists) extract the orchestra accompaniment from <em>any</em> recording — whether it's
+                a legendary performance by Argerich, a student recital on YouTube, or your own rehearsal
+                recording. The result is a clean orchestra track you can practice with at home.
+            </p>
+            <p class="text-n-body mb-6">
+                Under the hood, Sonaveil uses Meta's
+                <a href="https://github.com/facebookresearch/demucs" target="_blank"
+                   class="text-r-primary hover:text-r-strong transition underline">Demucs</a>
+                model for state-of-the-art source separation, with all processing and storage
+                handled securely through Supabase.
+            </p>
+            <p class="text-n-muted text-sm">
+                Made for musicians, by musicians. &hearts;
+            </p>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer class="py-8 text-center text-n-muted text-sm border-t border-n-border">
@@ -281,7 +340,7 @@ function formatBytes(bytes) {
 }
 
 // ── Tab switching ──
-const activeTabClasses = ['bg-white', 'text-r-primary', 'shadow-sm', 'border', 'border-n-border'];
+const activeTabClasses = ['bg-r-surface', 'text-r-primary', 'shadow-sm', 'border', 'border-n-border'];
 const inactiveTabClasses = ['text-n-body', 'hover:text-n-ink'];
 
 function switchTab(tab) {
@@ -306,19 +365,19 @@ function setFile(file) {
     fileNameEl.textContent = file.name;
     fileSizeEl.textContent = formatBytes(file.size);
     hide(dropPrompt); show(dropSelected);
-    dropZone.classList.add('border-r-primary', 'bg-white'); dropZone.classList.remove('border-n-border');
+    dropZone.classList.add('border-r-primary', 'bg-r-surface'); dropZone.classList.remove('border-n-border');
 }
 function clearFile() {
     selectedFile = null; fileInput.value = '';
     show(dropPrompt); hide(dropSelected);
-    dropZone.classList.remove('border-r-primary', 'bg-white'); dropZone.classList.add('border-n-border');
+    dropZone.classList.remove('border-r-primary', 'bg-r-surface'); dropZone.classList.add('border-n-border');
 }
 fileInput.addEventListener('change', (e) => { if (e.target.files.length) setFile(e.target.files[0]); });
 clearFileBtn.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); clearFile(); });
 
 // ── Drag & drop ──
-dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('border-r-primary', 'bg-white'); });
-dropZone.addEventListener('dragleave', (e) => { e.preventDefault(); if (!selectedFile) dropZone.classList.remove('border-r-primary', 'bg-white'); });
+dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('border-r-primary', 'bg-r-surface'); });
+dropZone.addEventListener('dragleave', (e) => { e.preventDefault(); if (!selectedFile) dropZone.classList.remove('border-r-primary', 'bg-r-surface'); });
 dropZone.addEventListener('drop', (e) => { e.preventDefault(); if (e.dataTransfer.files.length) setFile(e.dataTransfer.files[0]); });
 
 // ── Progress & status ──
