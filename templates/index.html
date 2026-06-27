@@ -9,9 +9,8 @@
         <div class="max-w-6xl mx-auto flex justify-between items-center">
             <a href="/" class="font-display text-2xl font-bold text-g-primary" onclick="window.scrollTo({top:0,behavior:'smooth'}); return window.location.pathname==='/' ? !0 : true;">Sonaveil</a>
             <nav class="flex items-center space-x-6 text-sm text-n-body">
-                <a href="#how-it-works" class="hover:text-g-primary transition">How it Works</a>
+                <span class="text-r-primary font-medium">Home</span>
                 <a href="/library" class="hover:text-g-primary transition">Library</a>
-                <a href="#about" class="hover:text-g-primary transition">About</a>
                 <!-- Auth: shown when logged out -->
                 <a id="nav-signin" href="/auth"
                    class="ml-2 px-4 py-2 bg-r-primary hover:bg-r-mid text-n-bg font-medium rounded-lg transition text-sm">
@@ -162,6 +161,19 @@
                                    transition text-sm text-center">View Library</a>
                     </div>
                 </div>
+            </div>
+
+            <!-- Go to Library CTA -->
+            <div class="mt-12 flex justify-center">
+                <button id="goto-library-btn" onclick="goToLibrary()"
+                    class="px-8 py-3 border border-g-primary text-g-primary font-semibold rounded-xl
+                           hover:bg-g-primary hover:text-n-bg transition text-sm flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                    </svg>
+                    Go to Your Library
+                </button>
             </div>
 
             <!-- Features -->
@@ -448,5 +460,15 @@ document.getElementById('start-over').addEventListener('click', () => {
     hide(resultsState); hide(processingState); updateProgress(null);
     document.getElementById('youtube-url').value = ''; clearFile(); show(form);
 });
+
+// ── Go to Library (auth-aware) ──
+async function goToLibrary() {
+    const { data: { session } } = await _supabase.auth.getSession();
+    if (session) {
+        window.location.href = '/library';
+    } else {
+        window.location.href = '/auth';
+    }
+}
 </script>
 {% endblock %}
